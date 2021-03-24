@@ -40,6 +40,17 @@ function draw() {
             tile.draw(n * 0.4, n * 0.4);
         }
     }
+
+
+    for (let x = 0; x < Tiles.length; x++) {
+        const column = Tiles[x];
+
+        for (let y = 0; y < column.length; y++) {
+            const tile = column[y];
+
+            tile.drawCloud();
+        }
+    }
     n ++
 }
 
@@ -209,6 +220,10 @@ class Tile {
                 rect(this.x * size, this.y * size, size, size);
             }
         }
+
+    }
+
+    drawCloud() {
 
         fill(this.cloudColour[0], this.cloudColour[1],this.cloudColour[2],this.cloudColour[3]);
         noStroke();
