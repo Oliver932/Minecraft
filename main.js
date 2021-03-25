@@ -1,7 +1,9 @@
 
-var rows = 200;
-var columns = 200;
-var size = 4;
+var rows = 100;
+var columns = 100;
+var size = 8;
+
+var heightMultiplier = 30;
 
 var ocean = 0.45;
 var beach = 0.51;
@@ -23,7 +25,7 @@ var lakeThreshold = 4;
 
 function setup() {
 
-    createCanvas(columns * size, rows * size);
+    createCanvas(columns * size, rows * size, WEBGL);
 
     for (let x = 0; x < columns; x++) {
 
@@ -46,10 +48,13 @@ function setup() {
 }
 
 n =0 
+
 function draw() {
 
+    background(255);
+    rotateX(0.7);
+
     var weather = (noise(n * weatherScale)) + 0.5;
-    console.log(weather);
 
     cloudThreshold = weather * baseCloudThreshold;
 
@@ -62,6 +67,7 @@ function draw() {
             tile.draw(n * 0.4, n * 0.4);
         }
     }
+
 
 
     for (let x = 0; x < Tiles.length; x++) {
@@ -212,38 +218,48 @@ class Tile {
             fill(255 * (1 - (this.height-beach)/ (mountain-beach))* (Math.max(1 - this.water * 5, 0)), this.colour[1],this.colour[2]);
         }
         noStroke();
-        rect(this.x * size, this.y * size, size, size);
+        // rect(this.x * size, this.y * size, size, size);
+
+        push();
+        translate(this.x * size - width / 2, this.y * size - height / 2, this.height ** 2 * size * heightMultiplier / 2);
+        box(size, size, this.height ** 2 * size * heightMultiplier);
+        pop();
 
 
-        if (this.type != 'Ocean') {
+    //     if (this.type != 'Ocean') {
 
-            if (this.flowTo != undefined) {
-                if (this.flow > riverThreshold && (this.water <= lakeThreshold || this.flowTo.water <= lakeThreshold)) {
-                    strokeWeight(Math.min(this.flow / (riverThreshold), size));
-                    stroke(0, 255 * this.height, 255, 255 * Math.min(1, this.flow / (riverThreshold)));
-                    line((this.x + 0.5) * size, (this.y + 0.5) * size, (this.flowTo.x + 0.5) * size, (this.flowTo.y + 0.5) * size)
+    //         if (this.flowTo != undefined) {
+    //             if (this.flow > riverThreshold && (this.water <= lakeThreshold || this.flowTo.water <= lakeThreshold)) {
+    //                 strokeWeight(Math.min(this.flow / (riverThreshold), size));
+    //                 stroke(0, 255 * this.height, 255, 255 * Math.min(1, this.flow / (riverThreshold)));
+    //                 line((this.x + 0.5) * size, (this.y + 0.5) * size, 0, (this.flowTo.x + 0.5) * size, (this.flowTo.y + 0.5) * size, 0)
 
-                } 
-            }
+    //             } 
+    //         }
 
-            if (this.water > lakeThreshold) {
+    //         if (this.water > lakeThreshold) {
                 
-                // stroke(0, 0, 255, 255 * Math.min(1, this.water / lakeThreshold));
-                // strokeWeight(Math.min(this.water / (lakeThreshold), size));
-                // point((this.x + 0.5) * size, (this.y + 0.5) * size);
+    //             // stroke(0, 0, 255, 255 * Math.min(1, this.water / lakeThreshold));
+    //             // strokeWeight(Math.min(this.water / (lakeThreshold), size));
+    //             // point((this.x + 0.5) * size, (this.y + 0.5) * size);
                 
-                fill(0, 255 * this.height, 255, 255 * Math.min(1, this.water / lakeThreshold));
-                noStroke();
-                rect(this.x * size, this.y * size, size, size);
-            }
-        }
+    //             fill(0, 255 * this.height, 255, 255 * Math.min(1, this.water / lakeThreshold));
+    //             noStroke();
+    //             rect(this.x * size, this.y * size, size, size);
+    //         }
+    //     }
 
-    }
+    // }
 
     drawCloud() {
 
         fill(this.cloudColour[0], this.cloudColour[1],this.cloudColour[2],this.cloudColour[3] * (1- cloudTransparecy));
         noStroke();
-        rect(this.x * size, this.y * size, size, size);
+        // rect(this.x * size, this.y * size, size, size);
+
+        push();
+        translate(this.x * size - width / 2, this.y * size - height / 2, size / 2 + size * heightMultiplier);
+        box(size, size, 0);
+        pop();
     }
 }
