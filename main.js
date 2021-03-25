@@ -249,7 +249,7 @@ class Tile {
     //         }
     //     }
 
-    // }
+    }
 
     drawCloud() {
 
