@@ -13,7 +13,7 @@ var weatherScale = 0.005;
 
 var baseCloudThreshold = 0.45;
 var cloudThreshold = baseCloudThreshold;
-var cloudTransparecy = 0.3;
+var cloudTransparecy = 0.6;
 
 var flowRate = 0.3;
 var evaporationRate = 0.05;
@@ -52,7 +52,9 @@ n =0
 function draw() {
 
     background(255);
-    rotateX(0.7);
+    rotateX(0.8);
+    // rotateY(0.3);
+    rotateZ(0.7);
 
     var weather = (noise(n * weatherScale)) + 0.5;
 
